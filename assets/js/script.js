@@ -35,6 +35,7 @@ $("#search-button").on("click", function(e) {
     e.preventDefault();
     var cityName = $("#search-input").val().trim();
 
+    // 1 create the buttons
     // if not empty, check if duplicate
     // if not duplicate, render btn
     if(cityName) {
@@ -54,6 +55,32 @@ $("#search-button").on("click", function(e) {
         alert("please input somthing");
     }
     
+    // 2 fetch the weather
+
 });
 
 renderBtn();
+
+// function to get the weather
+function renderTodayWeather(city) {
+    const apiKey = "";
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
+    $.ajax({
+        url: url,
+        method: "GET"
+    }).then(function(response) {
+
+        if(response.cod === 200) {
+            var icon = response.weather.icon ;
+            var wind = repsonse.wind.speed ;
+            var temp = response.main.temp - 273.15 ;
+            var humidity = response.main.humidity ;
+
+            
+        } else {
+            console.log("api error");
+        }
+
+    });
+}
