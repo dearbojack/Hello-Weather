@@ -30,12 +30,30 @@ function renderBtn() {
 
 }
 
+// eventlistener on Search Btn to save search history
 $("#search-button").on("click", function(e) {
     e.preventDefault();
     var cityName = $("#search-input").val().trim();
-    cityList.push(cityName);
-    localStorage.setItem('cityList', JSON.stringify(cityList));
-    renderBtn();
+
+    // if not empty, check if duplicate
+    // if not duplicate, render btn
+    if(cityName) {
+        if(!cityList.includes(cityName)) {
+            // if new city name, push it
+            cityList.push(cityName);
+            localStorage.setItem('cityList', JSON.stringify(cityList));
+            renderBtn();
+        } else {
+            // if duplicate, do nothing
+            console.log("city existed");
+            alert("city name existed");
+        }
+    } else {
+        // if input empty, do nothing
+        console.log("no input");
+        alert("please input somthing");
+    }
+    
 });
 
 renderBtn();
