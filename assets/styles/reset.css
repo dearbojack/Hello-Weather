@@ -2,6 +2,11 @@ header {
     background: linear-gradient(to right, #3462bb, #210b4e);
 };
 
+hr {
+    color:#210b4e;
+    size: 1px;
+};
+
 #today {
     border: solid 1px #000;
 };
