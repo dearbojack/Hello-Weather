@@ -10,6 +10,7 @@
 // How to get icon URL
 // For code 500 - light rain icon = "10d". See below a full list of codes
 // URL is http://openweathermap.org/img/wn/10d@2x.png
+
 var cityList = [];
 
 function renderBtn() {
@@ -49,6 +50,10 @@ $("#search-button").on("click", function(e) {
             console.log("city existed");
             alert("city name existed");
         }
+
+        // duplicate or not, call func to get today weather & 5 day Forcast
+        renderTodayWeather(cityName);
+
     } else {
         // if input empty, do nothing
         console.log("no input");
@@ -63,8 +68,22 @@ renderBtn();
 
 // function to get the weather
 function renderTodayWeather(city) {
-    const apiKey = "";
+    const apiKey = "95d15e0dac6e9067bba1f640b9fb69f0";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
+    // var response = $.get(url);
+    // response.done(function(data) { 
+    //     console.log("success got data", data);
+    //     var icon = data.weather[0].icon ;
+    //     var wind = data.wind.speed ;
+    //     var temp = data.main.temp - 273.15 ;
+    //     var humidity = data.main.humidity ;
+
+    //     console.log(icon);
+    //     console.log(wind);
+    //     console.log(temp);
+    //     console.log(humidity); 
+    // });
 
     $.ajax({
         url: url,
@@ -72,15 +91,25 @@ function renderTodayWeather(city) {
     }).then(function(response) {
 
         if(response.cod === 200) {
-            var icon = response.weather.icon ;
-            var wind = repsonse.wind.speed ;
+            var icon = response.weather[0].icon ;
+            var wind = response.wind.speed ;
             var temp = response.main.temp - 273.15 ;
             var humidity = response.main.humidity ;
 
-            
+            console.log(icon);
+            console.log(wind);
+            console.log(temp);
+            console.log(humidity);
+
         } else {
             console.log("api error");
         }
 
     });
 }
+
+// TODO func render5Forecast()
+// func to call api to get 5 day forcast
+// api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
+// docs: https://openweathermap.org/forecast5
+// need to handle the date format with moment.js?
