@@ -10,3 +10,32 @@
 // How to get icon URL
 // For code 500 - light rain icon = "10d". See below a full list of codes
 // URL is http://openweathermap.org/img/wn/10d@2x.png
+var cityList = [];
+
+function renderBtn() {
+
+    $("#history").empty();
+
+    var savedCityList = JSON.parse(localStorage.getItem("cityList"));
+    console.log(savedCityList);
+
+    if(savedCityList) {
+        for (let i = 0; i < savedCityList.length; i++) {
+            var button = $("<button>").text(savedCityList[i]).addClass("btn city-button col-lg col-md col-sm px-auto");
+            $("#history").append(button);
+        }
+    } else {
+        console.log("No saved search.");
+    }
+
+}
+
+$("#search-button").on("click", function(e) {
+    e.preventDefault();
+    var cityName = $("#search-input").val().trim();
+    cityList.push(cityName);
+    localStorage.setItem('cityList', JSON.stringify(cityList));
+    renderBtn();
+});
+
+renderBtn();

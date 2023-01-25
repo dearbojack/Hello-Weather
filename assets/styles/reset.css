@@ -1,3 +1,17 @@
 header {
     background: linear-gradient(to right, #3462bb, #210b4e);
 };
+
+#today {
+    border: solid 1px #000;
+};
+
+.search-button {
+    background-color: #5098e6;
+    color: #fff;
+};
+
+.city-button {
+    background-color: #aeaeae;
+    color: #000;
+}
