@@ -70,9 +70,11 @@ renderBtn();
 const apiKey = "95d15e0dac6e9067bba1f640b9fb69f0";
 // function to get the weather
 function renderTodayWeather(city) {
-    
+    // build the query url
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
-    $("#today").innerHtml = "";
+    // clear existing content in #today
+    $("#today").empty();
+    // fetch new weather content
     $.ajax({
         url: url,
         method: "GET"
@@ -84,6 +86,7 @@ function renderTodayWeather(city) {
             var temp = (response.main.temp - 273.15).toFixed(2)  ;
             var humidity = response.main.humidity ;
 
+            // url to the weather icon
             let iconUrl = "http://openweathermap.org/img/wn/" + icon +"@2x.png";
 
             let cityTitle = city.toUpperCase();
@@ -94,7 +97,9 @@ function renderTodayWeather(city) {
             let humidityEl =  $("<p>").text(`Humidity: ${humidity} %`);
 
             weatherIcon.attr("id", "weatherIcon");
-            $("#today").append(cityEl, weatherIcon, tempEl, windEl, humidityEl);
+            cityEl.append(weatherIcon);
+
+            $("#today").append(cityEl, tempEl, windEl, humidityEl);
 
         } else {
             console.log("api error");
