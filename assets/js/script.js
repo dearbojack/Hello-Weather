@@ -165,11 +165,17 @@ function render5Forecast(city) {
                     cardCol.append(dateEl, imgEl, tEl, wEl, hEl);
                     cardBody.append(cardCol);
                     $("#forcast").append(cardBody);
+                    
+                    console.log(`5day url: ${url}`);
+                    console.log(r);
+                    console.log(date);
+                    console.log(tValue);
+                    console.log(hValue);
+                    console.log(wValue);
+                    console.log($("#forcast"));
                 }
-
-                console.log(`5day url: ${url}`);
-                console.log(r);
-        
+                var forcastHeading = $("<h4>").text("5 Day Forcast:");
+                $("#forcast").prepend(forcastHeading);
             });
 
         } else {
