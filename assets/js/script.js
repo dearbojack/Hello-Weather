@@ -134,7 +134,7 @@ function render5Forecast(city) {
             lon = response[0].lon;
 
             // 5 day api query url
-            let url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+            let url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&appid=${apiKey}`;
 
             // if get geoLocation, api call to get 5 day forcast
             $.ajax({
@@ -145,6 +145,7 @@ function render5Forecast(city) {
                 if(r) {
                     
                     console.log(`5day url: ${url}`);
+                    console.log(r);
 
                 } else {
                     console.log(`5day url: ${url}`);
