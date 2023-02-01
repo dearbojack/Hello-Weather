@@ -65,6 +65,16 @@ $("#search-button").on("click", function(e) {
     // 2 fetch the weather
 
 });
+
+$("#city-button").on("click", function(e) {
+    e.preventDefault();
+    var cityName = $("#city-button").val().trim();
+
+    renderTodayWeather(cityName);
+    render5Forecast(cityName);
+
+});
+
 // create buttons from local storage if any
 renderBtn();
 
