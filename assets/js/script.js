@@ -113,32 +113,59 @@ function renderTodayWeather(city) {
     });
 }
 
-function getLatLon(city) {
-    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}` ;
+function render5Forecast(city) {
+
+    // api call to get city geo location
+    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}` ;
 
     $.ajax({
-        url: url,
+        url: geoUrl,
         method: "GET"
     }).then(function(response) {
 
         if(response) {
 
-            console.log(url);
+            console.log(geoUrl);
 
             console.log(response[0].lat);
             console.log(response[0].lon);
+
+            lat = response[0].lat;
+            lon = response[0].lon;
+
+            // 5 day api query url
+            let url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+
+            // if get geoLocation, api call to get 5 day forcast
+            $.ajax({
+                url: url,
+                method: "GET"
+            }).then(function(r) {
+        
+                if(r) {
+                    
+                    console.log(`5day url: ${url}`);
+
+                } else {
+                    console.log(`5day url: ${url}`);
+                    console.log("api error");
+                }
+        
+            });
 
         } else {
             console.log(url);
             console.log("api error");
         }
 
-        return [response[0].lat, response[0].lon];
     });
 }
 
+// render default weather for london
+renderTodayWeather("london");
+
+// render 5 day weather for city
+render5Forecast("london");
+
 // TODO func render5Forecast()
-// func to call api to get 5 day forcast
-// api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
-// docs: https://openweathermap.org/forecast5
 // need to handle the date format with moment.js?
