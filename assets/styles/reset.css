@@ -24,3 +24,9 @@ hr {
     background-color: #aeaeae;
     color: #000;
 }
+
+.card {
+    /* color: #fff; */
+    background-color: #3462bb;
+    word-break: keep-all;
+}

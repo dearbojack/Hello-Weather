@@ -141,19 +141,34 @@ function render5Forecast(city) {
                 url: url,
                 method: "GET"
             }).then(function(r) {
-        
-                if(r) {
 
-                    date = convertDate(r.list[0].dt_txt);
-                    console.log(date);
-                    
-                    console.log(`5day url: ${url}`);
-                    console.log(r);
+                for (let i = 0; i < r.list.length; i++) {
+                    let date = r.list[i].dt_txt;
+                    let tValue = (r.list[i].main.temp - 273.15).toFixed(2);
+                    let hValue = r.list[i].main.humidity;
+                    let wValue = r.list[i].wind.speed;
+                    let iconCode = r.list[i].weather[0].icon;
+                    let iconUrl = "http://openweathermap.org/img/wn/" + iconCode +"@2x.png";
 
-                } else {
-                    console.log(`5day url: ${url}`);
-                    console.log("api error");
+                    var cardContainer = $("<div>").addClass("row mt-3 mx-1");
+                    cardContainer.attr("id", "card-container");
+
+                    var cardCol = $("<div>").addClass("card col-2 px-auto mx-auto");
+                    var cardBody = $("<div>").addClass("card-body");
+
+                    dateEl = $("<h5>").text(convertDate(date));
+                    tEl = $("<p>").text(`Temperature: ${tValue} ℃`);
+                    imgEl = $("<img>").attr("src", iconUrl);
+                    hEl = $("<p>").text(`Humidity: ${hValue} %`);
+                    wEl = $("<p>").text(`Wind: ${wValue} m/s`);
+
+                    cardCol.append(dateEl, imgEl, tEl, wEl, hEl);
+                    cardBody.append(cardCol);
+                    $("#forcast").append(cardBody);
                 }
+
+                console.log(`5day url: ${url}`);
+                console.log(r);
         
             });
 
