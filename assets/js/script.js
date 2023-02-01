@@ -22,7 +22,8 @@ function renderBtn() {
 
     if(savedCityList) {
         for (let i = 0; i < savedCityList.length; i++) {
-            var button = $("<button>").text(savedCityList[i]).addClass("btn city-button col-lg col-md col-sm px-auto");
+            var button = $("<button>").text(savedCityList[i]).addClass("btn col-lg col-md col-sm px-auto");
+            button.attr("id", "city-button");
             $("#history").append(button);
         }
     } else {
@@ -63,7 +64,7 @@ $("#search-button").on("click", function(e) {
     // 2 fetch the weather
 
 });
-
+// create buttons from local storage if any
 renderBtn();
 
 
@@ -81,6 +82,7 @@ function renderTodayWeather(city) {
     }).then(function(response) {
 
         if(response.cod === 200) {
+            // get data from api call
             var icon = response.weather[0].icon ;
             var wind = response.wind.speed ;
             var temp = (response.main.temp - 273.15).toFixed(2)  ;
@@ -89,16 +91,19 @@ function renderTodayWeather(city) {
             // url to the weather icon
             let iconUrl = "http://openweathermap.org/img/wn/" + icon +"@2x.png";
 
+            // create elements
             let cityTitle = city.toUpperCase();
             let cityEl = $("<h3>").text(`${cityTitle}`);
             let windEl = $("<p>").text(`Wind: ${wind} m/s`);
             let weatherIcon = $("<img>").attr("src", iconUrl);
             let tempEl = $("<p>").text(`Temperature: ${temp} ℃`);
             let humidityEl =  $("<p>").text(`Humidity: ${humidity} %`);
-
+            
+            // put icon to heading
             weatherIcon.attr("id", "weatherIcon");
             cityEl.append(weatherIcon);
 
+            // populate #today
             $("#today").append(cityEl, tempEl, windEl, humidityEl);
 
         } else {
@@ -131,9 +136,6 @@ function getLatLon(city) {
         return [response[0].lat, response[0].lon];
     });
 }
-
-renderTodayWeather("beijing");
-getLatLon("beijing");
 
 // TODO func render5Forecast()
 // func to call api to get 5 day forcast
