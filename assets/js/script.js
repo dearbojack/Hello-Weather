@@ -143,6 +143,9 @@ function render5Forecast(city) {
             }).then(function(r) {
         
                 if(r) {
+
+                    date = convertDate(r.list[0].dt_txt);
+                    console.log(date);
                     
                     console.log(`5day url: ${url}`);
                     console.log(r);
@@ -170,3 +173,8 @@ render5Forecast("london");
 
 // TODO func render5Forecast()
 // need to handle the date format with moment.js?
+
+function convertDate(date) {
+    let momentDate = moment(date);
+    return momentDate.format("DD/MM/YYYY");
+}
