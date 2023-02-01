@@ -66,25 +66,13 @@ $("#search-button").on("click", function(e) {
 
 renderBtn();
 
+
+const apiKey = "95d15e0dac6e9067bba1f640b9fb69f0";
 // function to get the weather
 function renderTodayWeather(city) {
-    const apiKey = "95d15e0dac6e9067bba1f640b9fb69f0";
+    
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
-
-    // var response = $.get(url);
-    // response.done(function(data) { 
-    //     console.log("success got data", data);
-    //     var icon = data.weather[0].icon ;
-    //     var wind = data.wind.speed ;
-    //     var temp = data.main.temp - 273.15 ;
-    //     var humidity = data.main.humidity ;
-
-    //     console.log(icon);
-    //     console.log(wind);
-    //     console.log(temp);
-    //     console.log(humidity); 
-    // });
-
+    $("#today").innerHtml = "";
     $.ajax({
         url: url,
         method: "GET"
@@ -93,13 +81,20 @@ function renderTodayWeather(city) {
         if(response.cod === 200) {
             var icon = response.weather[0].icon ;
             var wind = response.wind.speed ;
-            var temp = response.main.temp - 273.15 ;
+            var temp = (response.main.temp - 273.15).toFixed(2)  ;
             var humidity = response.main.humidity ;
 
-            console.log(icon);
-            console.log(wind);
-            console.log(temp);
-            console.log(humidity);
+            let iconUrl = "http://openweathermap.org/img/wn/" + icon +"@2x.png";
+
+            let cityTitle = city.toUpperCase();
+            let cityEl = $("<h3>").text(`${cityTitle}`);
+            let windEl = $("<p>").text(`Wind: ${wind} m/s`);
+            let weatherIcon = $("<img>").attr("src", iconUrl);
+            let tempEl = $("<p>").text(`Temperature: ${temp} ℃`);
+            let humidityEl =  $("<p>").text(`Humidity: ${humidity} %`);
+
+            weatherIcon.attr("id", "weatherIcon");
+            $("#today").append(cityEl, weatherIcon, tempEl, windEl, humidityEl);
 
         } else {
             console.log("api error");
@@ -107,6 +102,33 @@ function renderTodayWeather(city) {
 
     });
 }
+
+function getLatLon(city) {
+    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}` ;
+
+    $.ajax({
+        url: url,
+        method: "GET"
+    }).then(function(response) {
+
+        if(response) {
+
+            console.log(url);
+
+            console.log(response[0].lat);
+            console.log(response[0].lon);
+
+        } else {
+            console.log(url);
+            console.log("api error");
+        }
+
+        return [response[0].lat, response[0].lon];
+    });
+}
+
+renderTodayWeather("beijing");
+getLatLon("beijing");
 
 // TODO func render5Forecast()
 // func to call api to get 5 day forcast
