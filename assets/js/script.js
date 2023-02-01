@@ -54,6 +54,7 @@ $("#search-button").on("click", function(e) {
 
         // duplicate or not, call func to get today weather & 5 day Forcast
         renderTodayWeather(cityName);
+        render5Forecast(cityName);
 
     } else {
         // if input empty, do nothing
